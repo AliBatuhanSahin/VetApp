@@ -6,12 +6,12 @@ import dev.patika.VeterinerYonetimSistemi.entity.Animal;
 import dev.patika.VeterinerYonetimSistemi.entity.Vaccine;
 import dev.patika.VeterinerYonetimSistemi.mapper.AnimalMapper;
 import dev.patika.VeterinerYonetimSistemi.mapper.VaccineMapper;
-import dev.patika.VeterinerYonetimSistemi.repository.IAnimalRepo;
 import dev.patika.VeterinerYonetimSistemi.repository.IVaccineRepo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -37,6 +37,10 @@ public class VaccineService {
         }
     }
 
+    public List<Vaccine> getVaccinesByAnimalName(String animalName) {
+        return vaccineRepo.findByAnimalName(animalName);
+    }
+
     //Değerlendirme Formu 15; Proje isterlerine göre hayvana ait aşının kaydedildiği metod
     public VaccineResponse createVaccine(VaccineRequest vaccineRequest) {
         Optional<Vaccine> optionalVaccine = vaccineRepo.findByNameAndCode(vaccineRequest.getName(), vaccineRequest.getCode());
@@ -59,10 +63,9 @@ public class VaccineService {
     }
 
     //Değerlendirme Formu 20; Proje isterlerine göre hayvana ait tüm aşıları görüntüleyen metod
-    public List<VaccineResponse> getVaccinesByAnimalId(Long animalId) {
+    public List<Vaccine> getVaccinesByAnimalId(String name) {
         // Belirli bir hayvana ait aşı kayıtlarını getirme işlemi
-        List<Vaccine> vaccines = vaccineRepo.findByAnimalId(animalId);
-        return vaccineMapper.asOutput(vaccines);
+        return vaccineRepo.findVaccineByName(name);
     }
 
     //Değerlendirme Formu 21; Proje isterlerine göre hayvanların aşı kayıtlarının girilen tarih aralığına göre gösterildiği metod
@@ -96,5 +99,27 @@ public class VaccineService {
         }else {
             throw new RuntimeException(id +"id'li aşı sistemde bulunamadı.");
         }
+    }
+
+    public List<VaccineResponse> getUpcomingVaccines(LocalDate startDate, LocalDate endDate) {
+        // startDate ve endDate parametrelerine göre yapılacak aşıları bulun ve döndürün
+        List<VaccineResponse> upcomingVaccines = new ArrayList<>();
+        // Örnek olarak, tüm aşıları döndürmek için:
+        List<Vaccine> vaccines = vaccineRepo.findByProtectionFinishDateBetween(startDate, endDate);
+        for (Vaccine vaccine : vaccines) {
+            VaccineResponse vaccineResponse = mapToVaccineResponse(vaccine);
+            upcomingVaccines.add(vaccineResponse);
+        }
+        return upcomingVaccines;
+    }
+
+    private VaccineResponse mapToVaccineResponse(Vaccine vaccine) {
+        VaccineResponse response = new VaccineResponse();
+        response.setId(vaccine.getId());
+        response.setName(vaccine.getName());
+        response.setCode(vaccine.getCode() != null ? vaccine.getCode() : "");
+        response.setProtectionStartDate(vaccine.getProtectionStartDate() != null ? vaccine.getProtectionStartDate() : LocalDate.now());
+        response.setProtectionFinishDate(vaccine.getProtectionFinishDate() != null ? vaccine.getProtectionFinishDate() : LocalDate.now());
+        return response;
     }
 }

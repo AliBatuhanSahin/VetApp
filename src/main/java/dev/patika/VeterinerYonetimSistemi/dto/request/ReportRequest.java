@@ -1,19 +1,18 @@
 package dev.patika.VeterinerYonetimSistemi.dto.request;
 
-import dev.patika.VeterinerYonetimSistemi.entity.Doctor;
+import dev.patika.VeterinerYonetimSistemi.entity.Appointment;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.time.LocalDate;
-
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
-public class AvailableDateRequest {
-    private LocalDate availableDate;
-    private Long id;
-    private Doctor doctor;
+public class ReportRequest {
+    private String title;
+    private String diagnosis;
+    private Double price;
+    private Appointment appointment;
 }

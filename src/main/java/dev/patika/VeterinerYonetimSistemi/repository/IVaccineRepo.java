@@ -11,7 +11,13 @@ import java.util.Optional;
 @Repository
 public interface IVaccineRepo extends JpaRepository<Vaccine,Long> {
     Optional<Vaccine> findByNameAndCode(String name, String code);
-    List<Vaccine> findByAnimalId(Long animalId);
+    List<Vaccine> findVaccineByName(String name);
+
+    List<Vaccine> findByProtectionFinishDateBetween(LocalDate startDate, LocalDate endDate);
+
+    List<Vaccine> findByAnimalName(String animalName);
     @Query("SELECT v FROM Vaccine v WHERE v.protectionFinishDate BETWEEN :startDate AND :endDate")
     List<Vaccine> findAnimalsWithUpcomingVaccines(@Param("startDate") LocalDate startDate, @Param("endDate") LocalDate endDate);
+
+
 }

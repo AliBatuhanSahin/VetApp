@@ -33,10 +33,10 @@ public class CustomerController {
     }
 
     //Değerlendirme Formu 18; Proje isterlerine göre hayvan sahibinin sistemde kayıtlı tüm hayvanlarını görüntüleyen metod
-    @GetMapping("/{customerId}/animals")
+    @GetMapping("/{name}/animals")
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<List<Animal>> getAnimalsByOwnerId(@PathVariable Long customerId) {
-        List<Animal> animals = animalService.getAnimalsByCustomerId(customerId);
+    public ResponseEntity<List<Animal>> getAnimalsByOwnerId(@PathVariable String name) {
+        List<Animal> animals = animalService.getAnimalsByCustomerId(name);
         return ResponseEntity.ok(animals);
     }
 

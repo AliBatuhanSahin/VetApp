@@ -1,5 +1,6 @@
 package dev.patika.VeterinerYonetimSistemi.dto.response;
 
+import dev.patika.VeterinerYonetimSistemi.entity.Customer;
 import dev.patika.VeterinerYonetimSistemi.entity.Vaccine;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -21,5 +22,6 @@ public class AnimalResponse {
     private String gender;
     private String colour;
     private LocalDate dateOfBirth;
+    private Customer customer;
 
 }

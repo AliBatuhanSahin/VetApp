@@ -1,15 +1,13 @@
 package dev.patika.VeterinerYonetimSistemi.repository;
 
 import dev.patika.VeterinerYonetimSistemi.entity.Animal;
+import dev.patika.VeterinerYonetimSistemi.entity.Report;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-import java.util.List;
+
 import java.util.Optional;
 
 @Repository
-public interface IAnimalRepo extends JpaRepository<Animal,Long> {
-    Optional<Animal> findByName(String name);
-
-    List<Animal> findAllByCustomerName(String name);
-
+public interface IReportRepo extends JpaRepository<Report,Long> {
+    Optional<Report> findByTitle(String title);
 }

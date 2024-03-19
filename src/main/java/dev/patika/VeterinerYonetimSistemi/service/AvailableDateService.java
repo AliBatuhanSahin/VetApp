@@ -66,9 +66,10 @@ public class AvailableDateService {
         if (availableDateFromDb.isEmpty()) {
             throw new RuntimeException(id + " Güncellemeye çalıştığınız 'Doktor Müsaitliği' sistemde yok.");
         }
-
+        System.out.println(request);
         if (isAvailableDateExist.isPresent()) {
             throw new RuntimeException(id + " Bu 'Doktor Müsaitliği' daha önce sisteme kayıt olmuştur.");
+
         }
         AvailableDate availableDate = availableDateFromDb.get();
         availableDateMapper.update(availableDate, request);

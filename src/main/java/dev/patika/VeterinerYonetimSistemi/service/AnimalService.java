@@ -31,8 +31,8 @@ public class AnimalService {
     }
 
     //Değerlendirme Formu 18; Proje isterlerine göre hayvan sahibinin sistemde kayıtlı tüm hayvanlarını görüntüleyen metod
-    public List<Animal> getAnimalsByCustomerId(Long customerId) {
-        return animalRepo.findAllByCustomerId(customerId);
+    public List<Animal> getAnimalsByCustomerId(String name) {
+        return animalRepo.findAllByCustomerName(name);
     }
 
     public AnimalResponse getAnimalById(Long id){

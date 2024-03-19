@@ -4,6 +4,7 @@ import dev.patika.VeterinerYonetimSistemi.dto.request.VaccineRequest;
 import dev.patika.VeterinerYonetimSistemi.dto.response.AnimalResponse;
 import dev.patika.VeterinerYonetimSistemi.dto.response.VaccineResponse;
 import dev.patika.VeterinerYonetimSistemi.entity.Vaccine;
+import dev.patika.VeterinerYonetimSistemi.service.AnimalService;
 import dev.patika.VeterinerYonetimSistemi.service.VaccineService;
 import lombok.AllArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -19,6 +20,7 @@ import java.util.List;
 @AllArgsConstructor
 public class VaccineController {
     private final VaccineService vaccineService;
+    private final AnimalService animalService;
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
@@ -50,21 +52,22 @@ public class VaccineController {
         vaccineService.vaccineDeleteById(id);
     }
 
-    @GetMapping("/{animalId}/vaccines")
+    @GetMapping("/{name}/vaccines")
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<List<VaccineResponse>> getVaccinesByAnimalId(@PathVariable Long animalId) {
-        List<VaccineResponse> vaccines = vaccineService.getVaccinesByAnimalId(animalId);
+    public ResponseEntity<List<Vaccine>> getVaccinesByAnimalId(@PathVariable String name) {
+        List<Vaccine> vaccines = vaccineService.getVaccinesByAnimalName(name);
         return ResponseEntity.ok(vaccines);
     }
 
     @GetMapping("/upcomingVaccines")
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<List<AnimalResponse>> getAnimalsWithUpcomingVaccines(
+    public ResponseEntity<List<VaccineResponse>> getUpcomingVaccines(
             @RequestParam("startDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
             @RequestParam("endDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate) {
 
-        List<AnimalResponse> animals = vaccineService.getAnimalsWithUpcomingVaccines(startDate, endDate);
-        return ResponseEntity.ok(animals);
+        List<VaccineResponse> vaccines = vaccineService.getUpcomingVaccines(startDate, endDate);
+        return ResponseEntity.ok(vaccines);
     }
+
 }
 

@@ -34,4 +34,9 @@ public class Vaccine {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "animal_id",referencedColumnName = "id")
     private Animal animal;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "report_id", referencedColumnName = "id")
+    @JsonIgnore
+    private Report report;
 }

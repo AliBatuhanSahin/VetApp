@@ -11,7 +11,7 @@ import java.util.stream.Collectors;
 @Mapper
 
 public interface AvailableDateMapper {
-    AvailableDateResponse asOutput(AvailableDate availableDate);
+    AvailableDateResponse asOutput(AvailableDate availableDate  );
 
     AvailableDate asEntity(AvailableDateRequest availableDateRequest);
 
