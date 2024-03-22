@@ -52,7 +52,7 @@ public class AnimalService {
         }
         return animalMapper.asOutput(animalRepo.save(animalMapper.asEntity(animalRequest)));
     }
-    public AnimalResponse animalUpdate(Long id, AnimalRequest request) {
+    /*public AnimalResponse animalUpdate(Long id, AnimalRequest request) {
         Optional<Animal> animalFromDb = animalRepo.findById(id);
         Optional<Animal> isAnimalExist = animalRepo.findByName(request.getName());
 
@@ -67,7 +67,32 @@ public class AnimalService {
         animalMapper.update(animal, request);
         return  animalMapper.asOutput(animalRepo.save(animal));
 
+    }*/
+
+    public AnimalResponse animalUpdate(Long id, AnimalRequest request) {
+        Optional<Animal> animalFromDb = animalRepo.findById(id);
+        Optional<Animal> isAnimalExist = animalRepo.findByName(request.getName());
+
+        if (animalFromDb.isEmpty()) {
+            throw new RuntimeException(id + " Güncellemeye çalıştığınız hayvan sistemde yok.");
+        }
+
+        if (isAnimalExist.isPresent() && !isAnimalExist.get().getId().equals(id)) {
+            throw new RuntimeException(request.getName() + " İsimli hayvan daha önce sisteme kayıt olmuştur.");
+        }
+
+        Animal animal = animalFromDb.get();
+
+        // İsim değişikliğini kontrol et ve ismi güncelle
+        if (!animal.getName().equals(request.getName())) {
+            animal.setName(request.getName());
+        }
+
+        // Diğer alanları güncelle
+        animalMapper.update(animal, request);
+        return animalMapper.asOutput(animalRepo.save(animal));
     }
+
 
     public void animalDeleteById(Long id) {
         Optional<Animal> animalFromDb = animalRepo.findById(id);
