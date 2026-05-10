@@ -8,7 +8,7 @@ COPY ./src /app/src
 
 RUN mvn clean package -Dmaven.test.skip=true
 
-FROM openjdk:17-jdk
+FROM eclipse-temurin:17-jdk
 
 WORKDIR /app
 
